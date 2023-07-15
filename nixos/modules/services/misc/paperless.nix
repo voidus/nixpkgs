@@ -223,6 +223,9 @@ in
         ExecStart = "${pkg}/bin/celery --app paperless beat --loglevel INFO";
         Restart = "on-failure";
       };
+      unitConfig = {
+        RequiresMountsFor = cfg.dataDir;
+      };
       environment = env;
 
       preStart = ''
@@ -279,6 +282,9 @@ in
         # Needs to talk to mail server for automated import rules
         PrivateNetwork = false;
       };
+      unitConfig = {
+        RequiresMountsFor = cfg.dataDir;
+      };
       environment = env;
     };
 
@@ -292,6 +298,9 @@ in
             '${cfg.passwordFile}' '${cfg.dataDir}/superuser-password'
         '';
         Type = "oneshot";
+      };
+      unitConfig = {
+        RequiresMountsFor = cfg.dataDir;
       };
     };
 
@@ -320,6 +329,9 @@ in
           ${pythonWithNltk}/bin/python -m nltk.downloader -d '${nltkDir}' punkt snowball_data stopwords
         '';
       };
+      unitConfig = {
+        RequiresMountsFor = cfg.dataDir;
+      };
     };
 
     systemd.services.paperless-consumer = {
@@ -332,6 +344,9 @@ in
         User = cfg.user;
         ExecStart = "${pkg}/bin/paperless-ngx document_consumer";
         Restart = "on-failure";
+      };
+      unitConfig = {
+        RequiresMountsFor = cfg.dataDir;
       };
       environment = env;
     };
@@ -357,6 +372,9 @@ in
       } // lib.optionalAttrs (cfg.port < 1024) {
         AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
         CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+      };
+      unitConfig = {
+        RequiresMountsFor = cfg.dataDir;
       };
       environment = env // {
         PATH = mkForce pkg.path;
