@@ -211,7 +211,7 @@ let
   # GHC doesn't seem to have {LLC,OPT}_HOST
   toolsForTarget = [
     (if targetPlatform.isGhcjs
-     then pkgsBuildTarget.emscripten
+     then pkgsBuildTarget.emscripten_3_1_49
      else pkgsBuildTarget.targetPackages.stdenv.cc)
   ] ++ lib.optional useLLVM buildTargetLlvmPackages.llvm;
 
