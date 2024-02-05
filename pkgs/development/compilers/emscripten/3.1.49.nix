@@ -3,7 +3,7 @@
 , llvmPackages
 , symlinkJoin, makeWrapper, substituteAll
 , buildNpmPackage
-, emscripten
+, emscripten_3_1_49
 }:
 
 stdenv.mkDerivation rec {
@@ -128,7 +128,7 @@ stdenv.mkDerivation rec {
     # HACK: Make emscripten look more like a cc-wrapper to GHC
     # when building the javascript backend.
     targetPrefix = "em";
-    bintools = emscripten;
+    bintools = emscripten_3_1_49;
   };
 
   meta = with lib; {
